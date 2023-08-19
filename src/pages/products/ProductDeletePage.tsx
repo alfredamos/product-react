@@ -36,19 +36,19 @@ export function ProductDeletePage() {
       productService.deleteProduct(id!)
         .then(({data}) => {
           productDispatch(new ProductAction(productActions.PRODUCT_SUCCESS_PRODUCT, data.product!));
-          navigate("/products");
+          navigate("/list-product");
         })
         .catch(error => {
           productDispatch(new ProductAction(productActions.PRODUCT_FAILURE, error))
         })
 
     }else{
-      navigate("/products");
+      navigate("/list-product");
     }
   }
 
   const backToListHandler = () => {
-    navigate("/products");
+    navigate("/list-product");
   };
 
   return (

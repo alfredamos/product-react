@@ -2,12 +2,12 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { Gender } from "../../../models/auth/gender.model";
-import { EditProfileDto } from "../../../models/auth/edit-profile.model";
+import { UserRoleDto } from "../../../models/auth/user-role.model";
+import { UserType } from "../../../models/auth/user-type.model";
 
 interface Props {
-  formName: string;
-  initialValue: EditProfileDto;
-  onEditProfile: (editProfileDto: EditProfileDto) => void;
+  initialValue: UserRoleDto;
+  onUserRole: (userRoleDto: UserRoleDto) => void;
   onBackToList: () => void;
 }
 
@@ -15,42 +15,39 @@ const schema = yup.object().shape({
   name: yup.string().required("Name is required!"),
   email: yup.string().email().required("Email is required!"),
   phone: yup.string().required("Phone is required!"),
-  password: yup.string().min(6).max(15).required("Password is required!"),
   gender: yup
     .mixed<Gender>()
     .oneOf(Object.values(Gender))
     .required("Gender is required!"),
+  userType: yup
+    .mixed<UserType>()
+    .oneOf(Object.values(UserType))
+    .required("UserType is required!"),
 });
 
-const EditProfileForm = ({
-  formName,
-  initialValue,
-  onEditProfile,
-  onBackToList,
-}: Props) => {
-
+const UserRoleForm = ({ initialValue, onUserRole, onBackToList }: Props) => {
   const {
     handleSubmit,
     register,
     reset,
     formState: { errors },
-  } = useForm<EditProfileDto>({
+  } = useForm<UserRoleDto>({
     values: { ...initialValue },
-    resolver: yupResolver<EditProfileDto>(schema),
+    resolver: yupResolver<UserRoleDto>(schema),
   });
 
   return (
-    <div className="row mt-5">      
+    <div className="row mt-5">
       <div className="col col-sm-8 col-md-8 offset-2">
-        <div className="card" style={{background: 'bg-light'}}>
+        <div className="card" style={{ background: "bg-light" }}>
           <form
-            onSubmit={handleSubmit((data: EditProfileDto) => {
-              onEditProfile({...data});
+            onSubmit={handleSubmit((data: UserRoleDto) => {
+              onUserRole({ ...data });
               reset();
             })}
           >
             <div className="card-header bg-primary text-white">
-              <h4 className="text-center">{formName} Form</h4>
+              <h4 className="text-center">User Role Form</h4>
             </div>
             <div className="card-body">
               <div className="mb-3">
@@ -93,28 +90,21 @@ const EditProfileForm = ({
                 </p>
               </div>
               <div className="mb-3">
-                <label htmlFor="password" className="form-label">
-                  Password
-                </label>
-                <input
-                  {...register("password")}
-                  type="password"
-                  className="form-control"
-                />
-                <p className="has-validation text-danger">
-                  {errors.password?.message}
-                </p>
-              </div>
-              <div className="mb-3">
                 <label htmlFor="gender" className="form-label">
                   Gender
                 </label>
-                <select
-                  {...register("gender")}
-                  className="form-select"
-                >
+                <select {...register("gender")} className="form-select">
                   <option value="Female">Female</option>
                   <option value="Male">Male</option>
+                </select>
+              </div>
+              <div className="mb-3">
+                <label htmlFor="userType" className="form-label">
+                  Role
+                </label>
+                <select {...register("userType")} className="form-select">
+                  <option value="Admin">Admin</option>
+                  <option value="Customer">Customer</option>
                 </select>
               </div>
             </div>
@@ -134,10 +124,10 @@ const EditProfileForm = ({
               </button>
             </div>
           </form>
-        </div>       
+        </div>
       </div>
     </div>
   );
 };
 
-export default EditProfileForm;
+export default UserRoleForm;

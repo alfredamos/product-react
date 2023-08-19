@@ -36,7 +36,7 @@ const SignupForm = ({ formName, initialValue, onSignup, onBackToList }: Props) =
 
   return (
     <div className="row mt-5">     
-      <div className="col col-sm-6 col-md-6 offset-3">
+      <div className="col col-sm-8 col-md-8 offset-2">
         <div className="card">
           <form
             onSubmit={handleSubmit((data: SignupDto) => {

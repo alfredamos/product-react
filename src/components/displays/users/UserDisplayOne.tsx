@@ -9,7 +9,7 @@ interface Props {
 
 export default function UserDisplayOne({ user, onBackToList,deleteHandler }: Props) {
   return (
-    <div className="col-sm-6 offset-3 mt-5">
+    <div className="col-sm-8 offset-2 mt-5">
       <div className="card">
         <div className="card-header bg-primary text-white">
           <h4 className="text-center">User Detail</h4>
@@ -24,6 +24,7 @@ export default function UserDisplayOne({ user, onBackToList,deleteHandler }: Pro
         </div>
         <div className="card-footer">
           <button
+          type="button"
             onClick={onBackToList}
             className="btn-outline-secondary form-control text-center m-1 fw-bold"
           >

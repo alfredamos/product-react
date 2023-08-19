@@ -28,9 +28,17 @@ instance.interceptors.response.use(
   (error) => {
     console.log("In response-interceptor,  response : ", error);
     if (error.response.status === 401) {
-      console.log("You have not logged in, please login!");
+      console.log("Invalid credentials or expired token, please login!");
       authService.updateAuthUser$(userSubInitial);
-      window.location.href = "/";
+      window.location.href = "/must-login";
+    } else if (error.response.status === 403) {
+      console.log("You are not authorized to view this page, please login!");
+      authService.updateAuthUser$(userSubInitial);
+      window.location.href = "/not-allowed";
+    } else {
+      console.log("Oops something went wrong, please login!");
+      authService.updateAuthUser$(userSubInitial);
+      window.location.href = "/something-wrong";
     }
   }
 );

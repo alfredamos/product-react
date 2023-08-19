@@ -8,6 +8,8 @@ interface Props {
 }
 
 export function ProductDisplayOne({ deleteHandler, onBackToList, product }: Props) {
+  console.log("Product : ", product)
+  
   return (
     <div className="col col-sm-6-offset-3">
       <div className="card">
@@ -15,6 +17,7 @@ export function ProductDisplayOne({ deleteHandler, onBackToList, product }: Prop
           <h4 className="text-center">Product Detail</h4>
         </div>
         <div className="card-body">
+          <img src={product?.productImage} className="img-fluid"/>
           <ul className="list-group">
             <li className="list-group-item">Name : {product.name} </li>
             <li className="list-group-item">Company: {product.company}</li>
@@ -26,6 +29,7 @@ export function ProductDisplayOne({ deleteHandler, onBackToList, product }: Prop
         </div>
         <div className="card-footer">
           <button
+          type="button"
             onClick={onBackToList}
             className="btn-outline-secondary form-control text-center m-1 fw-bold"
           >

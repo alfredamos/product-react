@@ -63,7 +63,7 @@ export function ProductEditPage() {
             product!
           )
         );
-        navigate("/products");
+        navigate("/list-product");
       })
       .catch((error) => {
         productDispatch(
@@ -73,7 +73,7 @@ export function ProductEditPage() {
   };
 
   const backToList = () => {
-    navigate(-1);
+    navigate("/list-product");
   };
 
   return (

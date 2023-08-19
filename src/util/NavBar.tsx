@@ -1,9 +1,17 @@
-import { Link, NavLink} from "react-router-dom";
-import { useGetLoginState } from "../hooks/useGetLoginState";
-import { authService} from "../services/auth.service";
+import { Link, NavLink } from "react-router-dom";
+import { authService } from "../services/auth.service";
+import { useObservable } from "../hooks/useObservable";
+import { AuthApiResponse } from "../models/auth/api-response.model";
+import { UserType } from "../models/auth/user-type.model";
 
 export function NavBar() {
-  const { isLoggedIn } = useGetLoginState(authService.authUser$);
+  const authUser = useObservable<AuthApiResponse>(
+    authService.authUser$,
+    new AuthApiResponse()
+  );
+
+  const isLoggedIn = authUser?.isLoggedIn;
+  const isAdmin = authUser.userType === UserType.Admin;
 
   return (
     <>
@@ -39,11 +47,13 @@ export function NavBar() {
                   Products
                 </NavLink>
               </li>
-              <li className="nav-item mx-5">
-                <NavLink to="/users" className="nav-link">
-                  Users
-                </NavLink>
-              </li>
+              {isAdmin && (
+                <li className="nav-item mx-5">
+                  <NavLink to="/users" className="nav-link">
+                    Users
+                  </NavLink>
+                </li>
+              )}
             </ul>
             <ul className="navbar-nav d-flex" style={{ listStyle: "none" }}>
               {isLoggedIn && (
@@ -56,7 +66,7 @@ export function NavBar() {
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                   >
-                    Dropdown
+                    Settings
                   </a>
 
                   <ul
@@ -87,14 +97,26 @@ export function NavBar() {
                   </NavLink>
                 </li>
               )}
+              {isAdmin && (
+                <li className="nav-item mx-5 align-self-auto">
+                  <NavLink
+                    to="/admin-panel"
+                    className="nav-link active"
+                    aria-current="page"
+                  >
+                    Admin
+                  </NavLink>
+                </li>
+              )}
               {isLoggedIn && (
                 <li className="nav-item mx-5 align-self-auto">
                   <NavLink
                     to="/logout"
-                    className="nav-link active"                    
+                    className="nav-link active"
                     aria-current="page"
                   >
                     Logout
+                    
                   </NavLink>
                 </li>
               )}
@@ -102,7 +124,7 @@ export function NavBar() {
           </div>
         </div>
       </nav>
-     {/*  <AlertModal
+      {/*  <AlertModal
         modalButtonClose="Back"
         modalButtonHandler={logout}
         modalButtonSave="Logout"

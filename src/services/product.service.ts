@@ -1,4 +1,5 @@
 import Axios from "../interceptors/axios.interceptor";
+import FeatureProductDto from "../models/products/feature-product.model";
 import { ProductApiResults } from "../models/products/product-results.models";
 import { ProductDto } from "../models/products/product.model";
 import { BehaviorSubject } from "rxjs";
@@ -13,8 +14,8 @@ export class ProductService {
   }
 
   async createProduct(productDto: ProductDto) {
-    const {data} = await Axios.post<ProductApiResults>(this.url, productDto);
-  
+    const { data } = await Axios.post<ProductApiResults>(this.url, productDto);
+
     return data;
   }
 
@@ -30,11 +31,18 @@ export class ProductService {
   }
 
   async editProduct(productDto: ProductDto) {
-    const {data} = await Axios.patch<ProductApiResults>(
+    const { data } = await Axios.patch<ProductApiResults>(
       `${this.url}/${productDto.id}`,
       productDto
     );
     return data;
+  }
+
+  async editProductFeature(fProductDto: FeatureProductDto) {
+    return await Axios.patch<ProductApiResults>(
+      `${this.url}/feature`,
+      fProductDto
+    );
   }
 
   async deleteProduct(id: string) {
@@ -48,7 +56,7 @@ export class ProductService {
   }
 
   async getProductById(id: string) {
-    const {data} = await Axios.get<ProductApiResults>(`${this.url}/${id}`);
+    const { data } = await Axios.get<ProductApiResults>(`${this.url}/${id}`);
 
     return data;
   }

@@ -2,36 +2,35 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { ProductDto } from "../../../models/products/product.model";
-import { UserDto } from "../../../models/auth/user.model";
+import FeatureProductDto from "../../../models/products/feature-product.model";
 
 interface Props {
-  initialValue: ProductDto;
-  users: UserDto[];
+  initialValue: ProductDto;  
   onProductHandler: (productDto: ProductDto) => void;
   onBackToList: () => void;
 }
 
-const schema = yup.object().shape({
-  id: yup.string().optional(),
+const schema = yup.object().shape({ 
+  id: yup.string().optional(), 
   name: yup.string().required("Name is required!"),
-  company: yup.string().required("Company is required!"),
-  description: yup.string().optional(),
-  productImage: yup.string().optional(),
+  company: yup.string().required("Company is required!"), 
   featured: yup.boolean().optional(),
-  userId: yup.string().optional(),
   price: yup.number().required("Price is required!"),
-  rating: yup.number().optional(),
 });
 
-const ProductForm = ({ onProductHandler, onBackToList, initialValue, users }: Props) => {
+const FeatureProductForm = ({
+  onProductHandler,
+  onBackToList,
+  initialValue, 
+}: Props) => {
   const {
     handleSubmit,
     register,
     reset,
     formState: { errors },
-  } = useForm<ProductDto>({
+  } = useForm<FeatureProductDto>({
     values: { ...initialValue },
-    resolver: yupResolver<ProductDto>(schema),
+    resolver: yupResolver<FeatureProductDto>(schema),
   });
 
   return (
@@ -75,25 +74,6 @@ const ProductForm = ({ onProductHandler, onBackToList, initialValue, users }: Pr
                 </p>
               </div>
               <div className="mb-3">
-                <label htmlFor="productImage" className="form-label">
-                  Image
-                </label>
-                <input
-                  {...register("productImage")}
-                  type="text"
-                  className="form-control"
-                />                
-              </div>
-              <div className="mb-3">
-                <label htmlFor="description" className="form-label">
-                  Description
-                </label>
-                <textarea
-                  {...register("description")}                  
-                  className="form-control"
-                />               
-              </div>
-              <div className="mb-3">
                 <label htmlFor="price" className="form-label">
                   Price
                 </label>
@@ -107,15 +87,14 @@ const ProductForm = ({ onProductHandler, onBackToList, initialValue, users }: Pr
                 </p>
               </div>
               <div className="mb-3">
-                <label htmlFor="userId" className="form-label">
-                  User
+                <label htmlFor="featured" className="form-label">
+                  Featured
                 </label>
-                <select {...register("userId")} className="form-select">
-                  <option>Please select the user</option>
-                  {users.map((user) => (
-                    <option id={user.id} value={user.id} key={user.id}>{user.name}</option>
-                  ))}
-                </select>                
+                <select {...register("featured")} className="form-select">
+                  <option>Featured</option>
+                  <option value="false">False</option>
+                  <option value="true">True</option>
+                </select>
               </div>
             </div>
             <div className="card-footer">
@@ -140,4 +119,4 @@ const ProductForm = ({ onProductHandler, onBackToList, initialValue, users }: Pr
   );
 };
 
-export default ProductForm
+export default FeatureProductForm

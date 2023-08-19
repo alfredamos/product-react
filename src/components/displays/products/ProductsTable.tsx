@@ -1,16 +1,16 @@
 import { Link } from "react-router-dom";
-import UserDisplay from "./UserDisplay";
-import { UserDto } from "../../../models/auth/user.model";
+import DisplayProduct from "./DisplayProduct";
+import { ProductDto } from "../../../models/products/product.model";
 
 interface Props {
-  users: UserDto[];
+  products: ProductDto[];
 }
 
-export default function UsersTable({ users }: Props) {
+export default function ProductsTable({ products }: Props) {
   return (
     <div className="card">
       <div className="card-header bg-primary text-white p-3">
-        <h4 className="text-center">User List</h4>
+        <h4 className="text-center">Product List</h4>
       </div>
       <div className="card-body">
         <table className="table table-responsive table-striped table-bordered">
@@ -21,9 +21,9 @@ export default function UsersTable({ users }: Props) {
             </tr>
           </thead>
           <tbody>
-            {users?.map((user) => (
-              <tr key={user.id}>
-                <UserDisplay user={user} />
+            {products?.map((product) => (
+              <tr key={product.id}>
+                <DisplayProduct product={product} />
               </tr>
             ))}
           </tbody>
@@ -31,10 +31,10 @@ export default function UsersTable({ users }: Props) {
       </div>
       <div className="card-footer d-flex flex-column align-items-center justify-content-center p-3">
         <Link
-          to="/users/create"
+          to="/list-product/create"
           className="btn btn-outline-secondary btn-lg form-control fw-bold"
         >
-          Create User
+          Create Product
         </Link>
         <Link
           to="/admin-panel"

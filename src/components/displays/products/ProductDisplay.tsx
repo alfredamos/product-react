@@ -27,6 +27,7 @@ export default function ProductDisplay({ addToCart, product }: Props) {
       </div>
       <div className="card-footer">
         <button
+        type="button"
           onClick={() => addToCart(product.id!)}
           className="btn btn-outline-secondary form-control shadow-sm fw-bold"
         >

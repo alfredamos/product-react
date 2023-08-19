@@ -27,7 +27,7 @@ const LoginForm = ({ onLogin, onBackToList, initialValue }: Props) => {
 
   return (
     <div className="row mt-5">      
-      <div className="col col-sm-4 col-md-4 offset-4">
+      <div className="col col-sm-8 col-md-8 offset-2">
         <div className="card">
           <form
             onSubmit={handleSubmit((data: LoginDto) => {

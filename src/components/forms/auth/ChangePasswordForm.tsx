@@ -36,7 +36,7 @@ const ChangePasswordForm = ({
 
   return (
     <div className="row mt-5">      
-      <div className="col col-sm-4 col-md-4 col-lg-6 p-2 offset-4">
+      <div className="col col-sm-8 col-md-8 col-lg-8 p-2 offset-2">
         <div className="card">
           <form
             onSubmit={handleSubmit((data: ChangePasswordDto) => {

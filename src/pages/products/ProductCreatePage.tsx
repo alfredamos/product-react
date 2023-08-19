@@ -40,7 +40,7 @@ export function ProductCreatePage() {
         console.log("new User : ", data.product);
         
         productDispatch(new ProductAction(productActions.PRODUCT_SUCCESS_PRODUCT, data.product!));
-        navigate("/products");
+        navigate("/list-product");
       })
       .catch(error => {
         productDispatch(new ProductAction(productActions.PRODUCT_FAILURE, error));
@@ -48,7 +48,7 @@ export function ProductCreatePage() {
   }
   
   const backToList = () => {
-    navigate(-1);
+    navigate("/list-product");
   }
   
   return (

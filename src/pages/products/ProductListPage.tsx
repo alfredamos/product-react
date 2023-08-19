@@ -7,6 +7,10 @@ import { productService } from "../../services/product.service";
 import ProductDisplay from "../../components/displays/products/ProductDisplay";
 import { Link, useNavigate } from "react-router-dom";
 import { ProductDto } from "../../models/products/product.model";
+import { useObservable } from "../../hooks/useObservable";
+import { authService } from "../../services/auth.service";
+import { AuthApiResponse } from "../../models/auth/api-response.model";
+import { UserType } from "../../models/auth/user-type.model";
 
 export function ProductListPage() {
   const [{ products }, dispatch] = useReducer<
@@ -14,6 +18,9 @@ export function ProductListPage() {
   >(productReducer, new ProductState());
 
   const navigate = useNavigate();
+
+  const authUser = useObservable(authService.authUser$, new AuthApiResponse())
+  const isAdmin = authUser.userType === UserType.Admin
 
   useEffect(() => {
     dispatch(new ProductAction(productActions.PRODUCT_BEGIN, true));
@@ -49,26 +56,30 @@ export function ProductListPage() {
   };
 
   const addToCart = (id: string) => {
-    navigate(`/add-to-cart/${id}`);
+    navigate(`/products/detail/${id}`);
   };
 
   return (
     <div className="container">
-      <div className="row mt-5">
-        <div className="col-6">
-          <h4 className="d-flex justify-content-start align-content-center">
-            Create new Product &#8594;
-          </h4>
+      {
+        isAdmin &&
+        <div className="row mt-5">
+          <div className="col-6">
+            <h4 className="d-flex justify-content-start align-content-center">
+              Create new Product &#8594;
+            </h4>
+          </div>
+          <div className="col-6 d-flex justify-content-end align-content-center">
+            <Link
+              to="/list-product/create"
+              className="btn btn-outline-secondary btn-lg w-50 me-0 fw-bold"
+            >
+              Create
+            </Link>
+          </div>
         </div>
-        <div className="col-6 d-flex justify-content-end align-content-center">
-          <Link
-            to="/products/create"
-            className="btn btn-outline-secondary btn-lg w-50 me-0 fw-bold"
-          >
-            Create
-          </Link>
-        </div>
-      </div>
+      }
+
       <div className="row mt-5">
         {products?.map((product) => (
           <div className="col col-sm-2 col-md-3 col-lg-4 m-1" key={product.id}>

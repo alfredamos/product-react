@@ -21,6 +21,12 @@ import { ProductDeletePage } from "./pages/products/ProductDeletePage";
 import { ProductEditPage } from "./pages/products/ProductEditPage";
 import UserCreatePage from "./pages/users/UserCreatePage";
 import { LogoutPage } from "./pages/auth/LogoutPage";
+import { SomethingWrongPage } from "./pages/auth/SomethingWrongPage";
+import { ListProductPage } from "./pages/products/ListProductPage";
+import { DetailProductPage } from "./pages/products/DetailProductPage";
+import { AdminPanel } from "./pages/admin/AdminPanel";
+import { RoleUpdatePage } from "./pages/admin/RoleUpdatePage";
+import { FeatureChangePage } from "./pages/admin/FeatureChangePage";
 
 export const router = createBrowserRouter([
   {
@@ -34,6 +40,7 @@ export const router = createBrowserRouter([
       { path: "must-login", element: <MustLoginPage /> },
       { path: "not-allowed", element: <NotAllowedPage /> },
       { path: "signup", element: <SignupPage /> },
+      { path: "something-wrong", element: <SomethingWrongPage /> },
     ],
   },
   {
@@ -41,7 +48,13 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "products",
-        element: <ProductListPage />,
+        element: <ProductListPage /> /* ,
+        children: [
+          {
+            path: "detail/:id",
+            element: <ProductDetailPage />,
+          },
+        ], */,
       },
       {
         path: "products/detail/:id",
@@ -62,11 +75,21 @@ export const router = createBrowserRouter([
           { path: "delete/:id", element: <UserDeletePage /> },
           { path: "edit/:id", element: <UserEditPage /> },
           { path: "detail/:id", element: <UserDetailPage /> },
+          { path: "make-admin/:id", element: <RoleUpdatePage /> },
         ],
       },
-      { path: "products/create", element: <ProductCreatePage /> },
-      { path: "products/delete/:id", element: <ProductDeletePage /> },
-      { path: "products/edit/:id", element: <ProductEditPage /> },
+      {
+        path: "list-product",
+        element: <ListProductPage />,
+        children: [
+          { path: "create", element: <ProductCreatePage /> },
+          { path: "delete/:id", element: <ProductDeletePage /> },
+          { path: "detail/:id", element: <DetailProductPage /> },
+          { path: "edit/:id", element: <ProductEditPage /> },
+          { path: "feature/:id", element: <FeatureChangePage /> },
+        ],
+      },
+      { path: "admin-panel", element: <AdminPanel /> },
     ],
   },
 ]);

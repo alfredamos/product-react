@@ -7,46 +7,62 @@ import { productActions } from "../../action-constants/product.constants";
 import { productService } from "../../services/product.service";
 import { useNavigate, useParams } from "react-router-dom";
 
-
 export function ProductDetailPage() {
   const [productState, productDispatch] = useReducer<
     Reducer<ProductState, ProductAction>
   >(productReducer, new ProductState());
 
   const navigate = useNavigate();
-  const {id} = useParams();
+  const { id } = useParams();
+
+  console.log("Product-detail : ", id);
 
   useEffect(() => {
     productDispatch(new ProductAction(productActions.PRODUCT_BEGIN, true));
-  },[])
+  }, []);
 
   useEffect(() => {
-    productService.getProductById(id!)
-      .then(data => {
+    productService
+      .getProductById(id!)
+      .then((data) => {
         console.log("data: ", data);
-        
-        productDispatch(new ProductAction(productActions.PRODUCT_SUCCESS_PRODUCT, data.product!));        
-      })
-      .catch(error => {
-        productDispatch(new ProductAction(productActions.PRODUCT_FAILURE, error));
-      })
-  },[id, navigate])
 
-  const deleteProductHandler = (value: boolean) =>{
-    if (value){
-      productService.deleteProduct(id!)
-        .then(({data}) => {
-          productDispatch(new ProductAction(productActions.PRODUCT_SUCCESS_PRODUCT, data.product!));
+        productDispatch(
+          new ProductAction(
+            productActions.PRODUCT_SUCCESS_PRODUCT,
+            data.product!
+          )
+        );
+      })
+      .catch((error) => {
+        productDispatch(
+          new ProductAction(productActions.PRODUCT_FAILURE, error)
+        );
+      });
+  }, [id, navigate]);
+
+  const deleteProductHandler = (value: boolean) => {
+    if (value) {
+      productService
+        .deleteProduct(id!)
+        .then(({ data }) => {
+          productDispatch(
+            new ProductAction(
+              productActions.PRODUCT_SUCCESS_PRODUCT,
+              data.product!
+            )
+          );
           navigate("/products");
         })
-        .catch(error => {
-          productDispatch(new ProductAction(productActions.PRODUCT_FAILURE, error))
-        })
-
-    }else{
+        .catch((error) => {
+          productDispatch(
+            new ProductAction(productActions.PRODUCT_FAILURE, error)
+          );
+        });
+    } else {
       navigate("/products");
     }
-  }
+  };
 
   const backToListHandler = () => {
     navigate("/products");

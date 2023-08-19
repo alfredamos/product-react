@@ -6,7 +6,7 @@ import { NavBar } from "./NavBar";
 export function PrivateRoutes() {
   const { isLoggedIn } = useGetLoginState(authService.authUser$);
 
-  if (!isLoggedIn) return <Navigate replace to="/login" />;
+  if (!isLoggedIn) return <Navigate replace to="/must-login" />;
 
   return (
     <>

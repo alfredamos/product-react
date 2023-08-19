@@ -6,6 +6,7 @@ import { BehaviorSubject } from "rxjs";
 import { ChangePasswordDto } from "../models/auth/change-password.model";
 import { AuthApiResponse } from "../models/auth/api-response.model";
 import { UserDetail } from "../models/auth/user-detail.model";
+import { UserRoleDto } from "../models/auth/user-role.model";
 
 export const userSubInitial: AuthApiResponse = {
   message: "",
@@ -20,12 +21,9 @@ class AuthService {
   authUser$ = this.authUserSubject.asObservable();
 
   constructor(public url: string) {
-  
     const authUser = this.getLocalAuthUser();
-    if(authUser)this.updateAuthUser$(authUser);
-    
-
-  } 
+    if (authUser) this.updateAuthUser$(authUser);
+  }
 
   async changePassword(changePasswordDto: ChangePasswordDto) {
     return await Axios.patch<AuthApiResponse>(
@@ -42,6 +40,14 @@ class AuthService {
     return await Axios.patch<AuthApiResponse>(
       `${this.url}/edit-profile`,
       editProfileDto
+    );
+  }
+
+  async makeAdmin(changeUserRoleDto: UserRoleDto) {
+    console.log("admin-user, user : ", changeUserRoleDto);
+    return await Axios.patch<AuthApiResponse>(
+      `${this.url}/change-role`,
+      changeUserRoleDto
     );
   }
 

@@ -1,38 +1,38 @@
 import { Link } from "react-router-dom";
-import { UserDto } from "../../../models/auth/user.model";
+import { ProductDto } from "../../../models/products/product.model";
 
 interface Props {
-  user: UserDto;
+  product: ProductDto;
 }
 
-export default function UserDisplay({ user }: Props) {
+export default function DisplayProduct({ product }: Props) {
   return (
     <>
-      <td>{user.name}</td>
+      <td>{product.name}</td>
       <td>
         <Link
-          to={`/users/detail/${user?.id}`}
+          to={`/list-product/detail/${product?.id}`}
           className="btn btn-outline-primary m-1 btn-sm fw-bold"
         >
           View
         </Link>
         <Link
-          to={`/users/delete/${user?.id}`}
+          to={`/list-product/delete/${product?.id}`}
           className="btn btn-outline-danger m-1 btn-sm fw-bold"
         >
           Delete
         </Link>
         <Link
-          to={`/users/edit/${user?.id}`}
+          to={`/list-product/edit/${product?.id}`}
           className="btn btn-outline-secondary m-1 btn-sm fw-bold"
         >
           Edit
         </Link>
         <Link
-          to={`/users/make-admin/${user?.id}`}
+          to={`/list-product/feature/${product?.id}`}
           className="btn btn-outline-dark m-1 btn-sm fw-bold"
         >
-          Role
+          Feature
         </Link>
       </td>
     </>
